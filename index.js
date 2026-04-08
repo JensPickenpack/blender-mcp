@@ -7,7 +7,10 @@ const logFile = path.resolve(moduleDir, 'index-start.log');
 function dbg(...args) {
   const line = `[${new Date().toISOString()}] ${args.map(a => (a && a.stack) ? a.stack : (typeof a === 'object' ? JSON.stringify(a) : String(a))).join(' ')}\n`;
   try { fs.appendFileSync(logFile, line); } catch (e) { /* ignore */ }
-  try { process.stderr.write(line); } catch (e) { /* ignore */ }
+}
+function dbgErr(...args) {
+  const line = `[${new Date().toISOString()}] ${args.map(a => (a && a.stack) ? a.stack : (typeof a === 'object' ? JSON.stringify(a) : String(a))).join(' ')}\n`;
+  try { fs.appendFileSync(logFile, line); } catch (e) { /* ignore */ }
 }
 
 dbg('index.js bootstrap start');
@@ -66,7 +69,7 @@ dbg('index.js bootstrap start');
           });
 
           client.on('error', (err) => {
-            dbg('BlenderClient socket error', err && err.stack ? err.stack : String(err));
+            dbgErr('BlenderClient socket error', err && err.stack ? err.stack : String(err));
             if (!resolved) {
               resolved = true;
               clearTimeout(timer);
@@ -116,7 +119,7 @@ dbg('index.js bootstrap start');
         const response = await blenderClient.sendCode(code);
         return { content: [{ type: 'text', text: `Code sent to Blender successfully!\n\nSent code:\n${code}\n\nBlender response:\n${JSON.stringify(response, null, 2)}` }] };
       } catch (error) {
-        dbg('send-code-to-blender failed', error && error.stack ? error.stack : String(error));
+        dbgErr('send-code-to-blender failed', error && error.stack ? error.stack : String(error));
         return { content: [{ type: 'text', text: `Failed to send code to Blender: ${error instanceof Error ? error.message : 'Unknown error'}\n\nCode that failed to send:\n${code}` }] };
       }
     });
@@ -126,7 +129,7 @@ dbg('index.js bootstrap start');
         const response = await blenderClient.sendCode('print("Hello from MCP!")');
         return { content: [{ type: 'text', text: `Connection test successful! Blender response: ${JSON.stringify(response, null, 2)}` }] };
       } catch (error) {
-        dbg('test-blender-connection error', error && error.stack ? error.stack : String(error));
+        dbgErr('test-blender-connection error', error && error.stack ? error.stack : String(error));
         return { content: [{ type: 'text', text: `Connection test failed: ${error instanceof Error ? error.message : 'Unknown error'}` }] };
       }
     });
@@ -136,7 +139,7 @@ dbg('index.js bootstrap start');
         const response = await blenderClient.fetchScene();
         return { content: [{ type: 'text', text: `Scene fetched from Blender:\n${JSON.stringify(response, null, 2)}` }] };
       } catch (error) {
-        dbg('fetch-scene-from-blender error', error && error.stack ? error.stack : String(error));
+        dbgErr('fetch-scene-from-blender error', error && error.stack ? error.stack : String(error));
         return { content: [{ type: 'text', text: `Failed to fetch scene: ${error instanceof Error ? error.message : 'Unknown error'}` }] };
       }
     });
@@ -147,7 +150,7 @@ dbg('index.js bootstrap start');
         const assetTypes = await resp.json();
         return { content: [{ type: 'text', text: `Asset types fetched from PolyHaven:\n${JSON.stringify(assetTypes, null, 2)}` }] };
       } catch (error) {
-        dbg('get-asset-types-from-polyhaven error', error && error.stack ? error.stack : String(error));
+        dbgErr('get-asset-types-from-polyhaven error', error && error.stack ? error.stack : String(error));
         return { content: [{ type: 'text', text: `Failed to fetch asset types: ${error instanceof Error ? error.message : 'Unknown error'}` }] };
       }
     });
@@ -161,7 +164,7 @@ dbg('index.js bootstrap start');
         const categories = await response.json();
         return { content: [{ type: 'text', text: `Categories fetched for "${asset_type}":\n\n${JSON.stringify(categories, null, 2)}` }] };
       } catch (error) {
-        dbg('get-categories-from-polyhaven error', error && error.stack ? error.stack : String(error));
+        dbgErr('get-categories-from-polyhaven error', error && error.stack ? error.stack : String(error));
         return { content: [{ type: 'text', text: `Failed to fetch categories: ${error instanceof Error ? error.message : 'Unknown error'}` }] };
       }
     });
@@ -172,7 +175,7 @@ dbg('index.js bootstrap start');
         const assets = await response.json();
         return { content: [{ type: 'text', text: `assets fetched are:\n\n${JSON.stringify(assets, null, 2)}` }] };
       } catch (error) {
-        dbg('get-asset-from-polyhaven error', error && error.stack ? error.stack : String(error));
+        dbgErr('get-asset-from-polyhaven error', error && error.stack ? error.stack : String(error));
         return { content: [{ type: 'text', text: `Failed to fetch assets: ${error instanceof Error ? error.message : 'Unknown error'}` }] };
       }
     });
@@ -215,7 +218,7 @@ dbg('index.js bootstrap start');
           return { content: [{ type: 'text', text: `No suitable download URL found for asset: ${asset_name}\nAsset type: ${asset_type}\nResolution: ${targetResolution}\nFormat: ${targetFormat}` }] };
         }
       } catch (error) {
-        dbg('download-asset-from-polyhaven error', error && error.stack ? error.stack : String(error));
+        dbgErr('download-asset-from-polyhaven error', error && error.stack ? error.stack : String(error));
         return { content: [{ type: 'text', text: `Failed to get asset data: ${error instanceof Error ? error.message : 'Unknown error'}` }] };
       }
     });
@@ -226,8 +229,7 @@ dbg('index.js bootstrap start');
     dbg('server.connect completed');
 
   } catch (err) {
-    dbg('fatal error in index.js bootstrap', err && err.stack ? err.stack : String(err));
-    try { console.error('index.js bootstrap error', err); } catch (e) {}
+    dbgErr('fatal error in index.js bootstrap', err && err.stack ? err.stack : String(err));
     process.exit(1);
   }
 })();

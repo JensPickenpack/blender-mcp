@@ -31,7 +31,7 @@ process.on('unhandledRejection', (reason) => {
     log('start-debug: import completed');
   } catch (err) {
     log('start-debug: import error', err);
-    try { console.error('start-debug import error', err); } catch {}
+    try { console.error('start-debug import error', err); } catch { }
     process.exit(1);
   }
 })();

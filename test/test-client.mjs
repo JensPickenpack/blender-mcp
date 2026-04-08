@@ -1,8 +1,8 @@
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-import { spawn } from 'node:child_process';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { ReadBuffer, serializeMessage } from '@modelcontextprotocol/sdk/shared/stdio.js';
+import { spawn } from 'node:child_process';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 class ManualStdioTransport {
   constructor(proc) {
@@ -41,7 +41,7 @@ class ManualStdioTransport {
   async close() {
     try {
       this._proc.stdin.end();
-    } catch {}
+    } catch { }
   }
 
   get stderr() {
@@ -68,19 +68,19 @@ async function main() {
   proc.stderr.on('data', (d) => {
     try {
       process.stderr.write('[server-stderr] ' + d.toString());
-    } catch {}
+    } catch { }
   });
 
   proc.on('close', (code, signal) => {
     try {
       console.log('[server-close] code=', code, 'signal=', signal);
-    } catch {}
+    } catch { }
   });
 
   proc.on('exit', (code, signal) => {
     try {
       console.log('[server-exit] code=', code, 'signal=', signal);
-    } catch {}
+    } catch { }
   });
 
   const transport = new ManualStdioTransport(proc);
@@ -100,11 +100,11 @@ async function main() {
   } finally {
     try {
       await transport.close();
-    } catch {}
+    } catch { }
 
     try {
       proc.kill();
-    } catch {}
+    } catch { }
   }
 }
 
