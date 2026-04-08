@@ -1,7 +1,7 @@
-import './dist/index.js';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import './dist/index.js';
 
 const moduleDir = path.dirname(fileURLToPath(import.meta.url));
 const logFile = path.resolve(moduleDir, 'index-start.log');
