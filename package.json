@@ -1,10 +1,14 @@
 {
   "name": "mcp-try",
   "version": "1.0.0",
-  "description": "",
+  "description": "MCP server for Blender scene/code interaction and Poly Haven asset workflows.",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "start:debug": "node test/start-debug.mjs",
+    "test": "node test/test-client.mjs",
+    "test:connection": "node test/test-client.mjs"
   },
   "keywords": [],
   "author": "",
