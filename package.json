@@ -2,12 +2,18 @@
   "name": "mcp-try",
   "version": "1.0.0",
   "description": "MCP server for Blender scene/code interaction and Poly Haven asset workflows.",
-  "main": "index.js",
+  "main": "dist/index.js",
   "type": "module",
   "scripts": {
-    "start": "node index.js",
+    "build": "tsc -p tsconfig.json",
+    "watch": "tsc -w -p tsconfig.json",
+    "start": "node dist/index.js",
+    "start:compat": "node index.js",
     "start:debug": "node test/start-debug.mjs",
-    "test": "node test/test-client.mjs",
+    "test": "npm run build && node test/test-all-tools.mjs",
+    "test:all-tools": "node test/test-all-tools.mjs",
+    "test:real": "npm run build && node test/test-real-tools.mjs",
+    "test:real:strict": "npm run build && node test/test-real-tools.mjs --strict",
     "test:connection": "node test/test-client.mjs"
   },
   "keywords": [],
@@ -16,5 +22,9 @@
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.12.3",
     "zod": "^3.25.64"
+  },
+  "devDependencies": {
+    "@types/node": "^22.19.17",
+    "typescript": "^5.8.3"
   }
 }

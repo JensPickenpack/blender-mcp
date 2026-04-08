@@ -3,3 +3,4 @@ node_modules/
 index-start.log
 server-debug.log
 .env
+dist/index.js
