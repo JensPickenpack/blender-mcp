@@ -1,0 +1,16 @@
+{
+  "description": "Suchbegriffe und Empfehlungen für PolyHaven-Assets passend zur Spielästhetik (Gothic / Ruinen / Ritual)",
+  "suggestions": [
+    { "query": "gargoyle statue", "notes": "Dekor: stone gargoyle, good for roofs and corners", "resolution": "2K-4K", "format": "obj/fbx/glb" },
+    { "query": "stone pedestal statue", "notes": "plinths and pedestals for altars", "resolution": "2K-4K" , "format": "obj/fbx"},
+    { "query": "ruins pillar broken column", "notes": "ruined architecture pieces, modular", "resolution": "2K-4K"},
+    { "query": "arch stone gothic arch", "notes": "arches and doorways for level dressing", "resolution": "2K"},
+    { "query": "stone altar", "notes": "hero prop for ritual sites, higher poly/texture budgets", "resolution": "4K"},
+    { "query": "lantern old metal lantern", "notes": "small prop, emissive texture for lights", "resolution": "2K"},
+    { "query": "bell bronze bell", "notes": "tower bell prop, good for audio sync visuals", "resolution": "2K"},
+    { "query": "candle wax candle small", "notes": "grouped candles for altar props, use emissive maps", "resolution": "1K-2K"},
+    { "query": "bench wooden stone bench", "notes": "environment seating and clutter", "resolution": "2K"},
+    { "query": "stone tiles moss", "notes": "floor tiles with variation for roads and moss overlays", "resolution": "4K"}
+  ],
+  "usage_notes": "Use the queries above on polyhaven.com or the API. Prefer OBJ/FBX/GLTF with textures; choose 2K-4K based on budget. Extract and place each asset in its own folder under tools/blender-mcp/input/ before running the Blender exporter."
+}
